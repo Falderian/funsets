@@ -42,7 +42,7 @@ trait FunSets extends FunSetsInterface:
   /**
    * Returns the subset of `s` for which `p` holds.
    */
-  def filter(s: FunSet, p: Int => Boolean): FunSet = ???
+  def filter(s: FunSet, p: Int => Boolean): FunSet = (x => s(x) && p(x))
 
 
   /**
@@ -55,20 +55,16 @@ trait FunSets extends FunSetsInterface:
    */
   def forall(s: FunSet, p: Int => Boolean): Boolean =
     def iter(a: Int): Boolean =
-      if ??? then
-        ???
-      else if ??? then
-        ???
-      else
-        iter(???)
-    iter(???)
+      if a > bound then true
+      else if (s(a) && !p(a)) then false
+      else iter(a + 1)
+    iter(-bound)
 
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-  def exists(s: FunSet, p: Int => Boolean): Boolean = ???
-
+  def exists(s: FunSet, p: Int => Boolean): Boolean = !forall(s, x => !p(x))
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */

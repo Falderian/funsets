@@ -34,8 +34,16 @@ class FunSetSuite extends munit.FunSuite:
 
   trait TestSets:
     val s1 = singletonSet(1)
+    val s1_copy = singletonSet(1)
     val s2 = singletonSet(2)
     val s3 = singletonSet(3)
+    val s4 = union(s1, s2)
+    val s5 = union(s2, s3)
+    val s6 = diff(s4, s1)
+    val s7 = intersect(s4, s5)
+    val s8 = union(s4, s5)
+    val s9 = filter(s8, x => x>1)
+    val s10 = filter(s8, x => x%2==1)
 
   /**
    * This test is currently disabled (by using .ignore) because the method
@@ -45,8 +53,8 @@ class FunSetSuite extends munit.FunSuite:
    * .ignore annotation.
    */
 
-    test("singleton set one contains one".ignore) {
-    
+    test("singleton set one contains one") {
+
     /**
      * We create a new instance of the "TestSets" trait, this gives us access
      * to the values "s1" to "s3".
@@ -65,6 +73,11 @@ class FunSetSuite extends munit.FunSuite:
       assert(contains(s, 1), "Union 1")
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
+  }
+
+  test("intersect with one common element") {
+    new TestSets:
+      assert(contains(intersect(s1, s1_copy), 1), "have the common element")
   }
 
 
